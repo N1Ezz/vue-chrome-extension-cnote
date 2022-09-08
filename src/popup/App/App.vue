@@ -10,7 +10,8 @@
           账号：{{ item.username }}
         </el-col>
         <el-col :span="12">
-          密码：{{ item.password }}
+          <el-link @click="() => {item.pwd_show = !item.pwd_show}">密码</el-link>
+          ：{{ item.pwd_show ? item.password : '  *******' }}
         </el-col>
         <el-col :span="5">
           <el-button size="mini" type="text" @click="copy(item, true)">
@@ -89,7 +90,7 @@ export default {
         let id = this.list.length !== 0 ? this.list[this.list.length - 1].id + 1 : 1
         this.form.id = id
         if (this.form.all) {
-          let arr = this.form.all.split(/\s+/)
+          let arr = this.form.all.split(/\s+/)// 根据空格分隔字符串
           if (arr.length < 2) {
             this.$message.error('解析信息不完整，少于三个字段')
             return
@@ -98,6 +99,7 @@ export default {
           this.form.username = arr[1]
           this.form.password = arr[2]
         }
+        this.form.pwd_show = false
         this.list = this.list.length !== 0 ? [...this.list, this.form] : [this.form]
       }
       this.close()
@@ -143,7 +145,15 @@ export default {
     }
   },
   created() {
-    this.list = JSON.parse(localStorage.getItem('cnote_list'))
+    if (JSON.parse(localStorage.getItem('cnote_list'))) {
+      this.list = JSON.parse(localStorage.getItem('cnote_list'))
+      this.list = this.list.map((i) => {
+        return {
+          ...i,
+          pwd_show: false
+        }
+      })
+    }
   }
 }
 </script>
