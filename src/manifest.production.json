@@ -11,8 +11,8 @@
   "commands": {
     "_execute_action": {
       "suggested_key": { // 打开扩展页面的快捷键
-        "default": "Ctrl+Shift+F",
-        "mac": "MacCtrl+Shift+F"
+        "default": "Ctrl+Alt+A",
+        "mac": "MacCtrl+Alt+A"
       },
       "description": "Opens index.html"
     }
