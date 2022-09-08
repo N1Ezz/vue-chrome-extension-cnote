@@ -1,0 +1,20 @@
+{
+  "name": "Cnote-dev",
+  "description": "Cnote is base v3 extension by N1Ez",
+  "version": "0.0.1", // 扩展的自定义版本
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html", // 扩展的页面
+    "default_icon": "cnote_icon.png", // 扩展的图标
+	  "default_title": "N1Ez'Extension"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { // 打开扩展页面的快捷键
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      },
+      "description": "Opens index.html"
+    }
+  }
+}
