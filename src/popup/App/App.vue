@@ -125,7 +125,7 @@ export default {
       document.execCommand("Copy");//执行复制命令
       // 复制之后再删除元素，否则无法成功赋值
       copyInput.remove();//删除动态创建的节点
-      this.$message.success("链接已复制！")
+      type ? this.$message.success("复制成功！") : this.$message.success("密码复制成功！")
     },
     deleteItem(item) {
       this.list = this.list.filter((i) => {
