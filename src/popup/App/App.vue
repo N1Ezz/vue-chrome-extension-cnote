@@ -6,13 +6,16 @@
         <el-col>
           <span>{{ item.address }}</span>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
           账号：{{ item.username }}
         </el-col>
         <el-col :span="12">
           密码：{{ item.password }}
         </el-col>
-        <el-col :span="4">
+        <el-col :span="5">
+          <el-button size="mini" type="text" @click="copy(item, true)">
+            <i class="el-icon-link"></i>
+          </el-button>
           <el-button size="mini" type="text" @click="copy(item)">
             <i class="el-icon-document-copy"></i>
           </el-button>
@@ -45,6 +48,14 @@
       <div>
         描述：<el-input size="mini" v-model="form.address"></el-input>
       </div>
+      <div v-if="type === 'add'">
+        解析信息：
+        <el-input
+          size="mini"
+          v-model="form.all"
+          placeholder="可将信息按照备注、账号、密码顺序按空格分隔进行解析">
+        </el-input>
+      </div>
       <div style="float: right">
         <el-button size="mini" type="plian" @click="save">保存</el-button>
       </div>
@@ -61,7 +72,8 @@ export default {
         id: '',
         address: '',
         username: '',
-        password: ''
+        password: '',
+        all: ''
       },
       type: 'close',
       list: []
@@ -76,15 +88,19 @@ export default {
       } else {
         let id = this.list.length !== 0 ? this.list[this.list.length - 1].id + 1 : 1
         this.form.id = id
+        if (this.form.all) {
+          let arr = this.form.all.split(/\s+/)
+          if (arr.length < 2) {
+            this.$message.error('解析信息不完整，少于三个字段')
+            return
+          }
+          this.form.address = arr[0]
+          this.form.username = arr[1]
+          this.form.password = arr[2]
+        }
         this.list = this.list.length !== 0 ? [...this.list, this.form] : [this.form]
       }
-      this.type = 'close'
-      this.form = {
-        id: '',
-        address: '',
-        username: '',
-        password: ''
-      }
+      this.close()
       localStorage.setItem('cnote_list', JSON.stringify(this.list))
     },
     modify(item) {
@@ -94,11 +110,15 @@ export default {
       this.form.address = item.address
       this.type = 'modify'
     },
-    copy(item) {
-      let pwd = item.password;//拿到想要复制的值
+    copy(item, type = false) {// type为true时代表复制全部值
+      const pwd = item.password;//拿到想要复制的值
+      const address = item.address;//拿到想要复制的值
+      const username = item.username;//拿到想要复制的值
+      let val = ''
+      val = type ? address + ' ' + username + ' ' + pwd : pwd
       let copyInput = document.createElement('input');//创建input元素
       document.body.appendChild(copyInput);//向页面底部追加输入框
-      copyInput.setAttribute('value', pwd);//添加属性，将url赋值给input元素的value属性
+      copyInput.setAttribute('value', val);//添加属性，将url赋值给input元素的value属性
       copyInput.select();//选择元素
       document.execCommand("Copy");//执行复制命令
       // 复制之后再删除元素，否则无法成功赋值
@@ -110,6 +130,16 @@ export default {
         return i.id !== item.id
       })
       localStorage.setItem('cnote_list', JSON.stringify(this.list))
+      this.close()
+    },
+    close() {
+      this.type = 'close'
+      this.form = {
+        id: '',
+        address: '',
+        username: '',
+        password: ''
+      }
     }
   },
   created() {
@@ -125,7 +155,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 20px;
-  width: 450px;
+  width: 460px;
   font-size: 15px;
 }
 .content {
