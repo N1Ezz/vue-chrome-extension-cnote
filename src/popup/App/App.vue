@@ -91,7 +91,7 @@ export default {
         this.form.id = id
         if (this.form.all) {
           let arr = this.form.all.split(/\s+/)// 根据空格分隔字符串
-          if (arr.length < 2) {
+          if (arr.length < 3) {
             this.$message.error('解析信息不完整，少于三个字段')
             return
           }
@@ -169,7 +169,7 @@ export default {
   font-size: 15px;
 }
 .content {
-  max-height: 380px;
+  max-height: 360px;
   overflow:auto;
 }
 </style>
