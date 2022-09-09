@@ -4,13 +4,19 @@
     <div class="content">
       <el-row v-for="(item, index) in list" :key="index">
         <el-col>
-          <span>{{ item.address }}</span>
+          <el-link
+            v-if="isLink(item.address)"
+            :underline="false"
+            @click="link(item.address)">
+            <span>{{ item.address }}</span>
+          </el-link>
+          <span v-else>{{ item.address }}</span>
         </el-col>
         <el-col :span="7">
           账号：{{ item.username }}
         </el-col>
         <el-col :span="12">
-          <el-link @click="() => {item.pwd_show = !item.pwd_show}">密码</el-link>
+          <el-link :underline="false" @click="() => {item.pwd_show = !item.pwd_show}">密码</el-link>
           ：{{ item.pwd_show ? item.password : '  *******' }}
         </el-col>
         <el-col :span="5">
@@ -133,6 +139,15 @@ export default {
       })
       localStorage.setItem('cnote_list', JSON.stringify(this.list))
       this.close()
+    },
+    link(url) {
+      window.location.href = url
+      window.open(url)
+    },
+    isLink(url) {
+      // eslint-disable-next-line
+      let reg = new RegExp(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)
+      return reg.test(url)
     },
     close() {
       this.type = 'close'
