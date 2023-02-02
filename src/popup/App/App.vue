@@ -1,6 +1,6 @@
 <template>
   <div class="main_app">
-    <h5>Cnote by N1Ez</h5>
+    <h5>{{ cnote_title }}</h5>
     <div class="content">
       <el-row v-for="(item, index) in list" :key="index">
         <el-col>
@@ -71,10 +71,12 @@
 </template>
 
 <script>
+import setting from '../../setting.js'
 export default {
   name: 'app',
   data() {
     return {
+      cnote_title: setting.cnote_title,
       form: {
         id: '',
         address: '',
