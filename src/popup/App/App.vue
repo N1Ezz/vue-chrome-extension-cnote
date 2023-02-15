@@ -4,6 +4,7 @@
     <div class="content">
       <el-row v-for="(item, index) in list" :key="index">
         <el-col>
+          {{ emojis[index > 9 ? parseInt(index / 10) % 10 : 0] + emojis[index % 10] }}
           <el-link
             v-if="isLink(item.address)"
             :underline="false"
@@ -75,7 +76,11 @@ import setting from '../../setting.js'
 export default {
   name: 'app',
   data() {
+    const emojis = [
+      '0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'
+    ]
     return {
+      emojis,
       cnote_title: setting.cnote_title,
       form: {
         id: '',
