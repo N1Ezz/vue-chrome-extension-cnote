@@ -1,4 +1,6 @@
-# Chrome-extension-vue
+# Chrome-extension-vue 
+
+
 
 ## Project setup
 ```
@@ -34,6 +36,10 @@ yarn lint || npm run lint
 > #### fireFox
 >
 > 火狐的插件方式比较特殊，我不会弄:no_entry_sign:
+>
+> ##### github地址
+>
+> [vue-chrome-extension](https://github.com/N1Ezz/vue-chrome-extension-cnote.git)
 
 
 #### 使用Tips：
