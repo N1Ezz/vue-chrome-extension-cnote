@@ -50,4 +50,4 @@ yarn lint || npm run lint
 
 #### 效果图
 
-![img](http://8.142.4.106:2022/images/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20230217163053.png)
+![img](http://8.142.4.106:2022/images/20230217163053.png)
