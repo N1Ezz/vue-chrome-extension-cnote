@@ -36,3 +36,12 @@ yarn lint || npm run lint
 > 火狐的插件方式比较特殊，我不会弄:no_entry_sign:
 
 
+#### 使用Tips：
+
+> 有机会在写
+> 
+
+
+#### 效果图
+
+![img](http://8.142.4.106:2022/images/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20230217163053.png)
