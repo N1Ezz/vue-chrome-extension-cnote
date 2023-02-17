@@ -1,4 +1,4 @@
-# hello-chrome-vue
+# Chrome-extension-vue
 
 ## Project setup
 ```
