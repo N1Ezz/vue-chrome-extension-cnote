@@ -6,7 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 Vue.component('app-component', AppComponent)
 
-Vue({
+new Vue({
   el: '#app',
   render: (createElement) => {
     return createElement(AppComponent)

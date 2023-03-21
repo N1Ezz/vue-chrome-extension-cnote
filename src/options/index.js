@@ -3,7 +3,7 @@ import AppComponent from './App/App.vue'
 
 Vue.component('app-component', AppComponent)
 
-Vue({
+new Vue({
   el: '#app',
   render: (createElement) => {
     return createElement(AppComponent)

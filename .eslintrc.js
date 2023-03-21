@@ -10,7 +10,7 @@ module.exports = {
   rules: {
     'no-tabs': 'off',
     // 'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': 'off',
     'block-scoped-var': 2,
     'object-curly-spacing': [2, 'always'],
     'brace-style': [2, '1tbs', { allowSingleLine: true }],
@@ -94,7 +94,7 @@ module.exports = {
     'no-global-assign': 2,
     'no-unsafe-negation': 2,
     'no-nested-ternary': 0,
-    'no-new': 2,
+    'no-new': 0,
     'no-new-func': 2,
     'no-new-object': 2,
     'no-new-require': 2,
