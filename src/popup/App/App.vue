@@ -5,19 +5,23 @@
       <el-row v-for="(item, index) in list" :key="index">
         <el-col>
           {{ emojis[index > 9 ? parseInt(index / 10) % 10 : 0] + emojis[index % 10] }}
-          <el-link
-            v-if="isLink(item.address)"
-            :underline="false"
-            @click="link(item.address)">
+          <el-link v-if="isLink(item.address)" :underline="false" @click="link(item.address)">
             <span>{{ item.address }}</span>
           </el-link>
           <span v-else>{{ item.address }}</span>
         </el-col>
-        <el-col :span="7">
-          账号：{{ item.username }}
-        </el-col>
+        <el-col :span="7">账号：{{ item.username }}</el-col>
         <el-col :span="12">
-          <el-link :underline="false" @click="() => {item.pwd_show = !item.pwd_show}">密码</el-link>
+          <el-link
+            :underline="false"
+            @click="
+              () => {
+                item.pwd_show = !item.pwd_show
+              }
+            "
+          >
+            密码
+          </el-link>
           ：{{ item.pwd_show ? item.password : '  *******' }}
         </el-col>
         <el-col :span="5">
@@ -38,31 +42,39 @@
     </div>
     <el-button
       v-if="this.type === 'close'"
-      style="width:100%"
+      style="width: 100%"
       size="mini"
       type="plian"
-      @click="() => {this.type = 'add'}">
-        <i class="el-icon-circle-plus"></i>
+      @click="
+        () => {
+          this.type = 'add'
+        }
+      "
+    >
+      <i class="el-icon-circle-plus"></i>
     </el-button>
     <div v-else>
       <div>
-        <div style="width: 48%;float: left;margin-right: 4%;">
-          账号：<el-input size="mini" v-model="form.username"></el-input>
+        <div style="width: 48%; float: left; margin-right: 4%">
+          账号：
+          <el-input size="mini" v-model="form.username"></el-input>
         </div>
-        <div style="width: 48%;float: left;">
-          密码：<el-input size="mini" v-model="form.password"></el-input>
+        <div style="width: 48%; float: left">
+          密码：
+          <el-input size="mini" v-model="form.password"></el-input>
         </div>
       </div>
       <div>
-        描述：<el-input size="mini" v-model="form.address"></el-input>
+        描述：
+        <el-input size="mini" v-model="form.address"></el-input>
       </div>
       <div v-if="type === 'add'">
         解析信息：
         <el-input
           size="mini"
           v-model="form.all"
-          placeholder="可将信息按照备注、账号、密码顺序按空格分隔进行解析">
-        </el-input>
+          placeholder="可将信息按照备注、账号、密码顺序按空格分隔进行解析"
+        ></el-input>
       </div>
       <div style="float: right">
         <el-button size="mini" type="plian" @click="save">保存</el-button>
@@ -76,9 +88,7 @@ import setting from '../../setting.js'
 export default {
   name: 'app',
   data() {
-    const emojis = [
-      '0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'
-    ]
+    const emojis = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
     return {
       emojis,
       cnote_title: setting.cnote_title,
@@ -103,7 +113,7 @@ export default {
         let id = this.list.length !== 0 ? this.list[this.list.length - 1].id + 1 : 1
         this.form.id = id
         if (this.form.all) {
-          let arr = this.form.all.split(/\s+/)// 根据空格分隔字符串
+          let arr = this.form.all.split(/\s+/) // 根据空格分隔字符串
           if (arr.length < 3) {
             this.$message.error('解析信息不完整，少于三个字段')
             return
@@ -125,20 +135,21 @@ export default {
       this.form.address = item.address
       this.type = 'modify'
     },
-    copy(item, type = false) {// type为true时代表复制全部值
-      const pwd = item.password;//拿到想要复制的值
-      const address = item.address;//拿到想要复制的值
-      const username = item.username;//拿到想要复制的值
+    copy(item, type = false) {
+      // type为true时代表复制全部值
+      const pwd = item.password // 拿到想要复制的值
+      const address = item.address // 拿到想要复制的值
+      const username = item.username // 拿到想要复制的值
       let val = ''
       val = type ? address + ' ' + username + ' ' + pwd : pwd
-      let copyInput = document.createElement('input');//创建input元素
-      document.body.appendChild(copyInput);//向页面底部追加输入框
-      copyInput.setAttribute('value', val);//添加属性，将url赋值给input元素的value属性
-      copyInput.select();//选择元素
-      document.execCommand("Copy");//执行复制命令
+      let copyInput = document.createElement('input') // 创建input元素
+      document.body.appendChild(copyInput) // 向页面底部追加输入框
+      copyInput.setAttribute('value', val) // 添加属性，将url赋值给input元素的value属性
+      copyInput.select() // 选择元素
+      document.execCommand('Copy') // 执行复制命令
       // 复制之后再删除元素，否则无法成功赋值
-      copyInput.remove();//删除动态创建的节点
-      type ? this.$message.success("复制成功！") : this.$message.success("密码复制成功！")
+      copyInput.remove() // 删除动态创建的节点
+      type ? this.$message.success('复制成功！') : this.$message.success('密码复制成功！')
     },
     deleteItem(item) {
       this.list = this.list.filter((i) => {
@@ -153,7 +164,9 @@ export default {
     },
     isLink(url) {
       // eslint-disable-next-line
-      let reg = new RegExp(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)
+      let reg = new RegExp(
+        /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/
+      )
       return reg.test(url)
     },
     close() {
@@ -192,6 +205,6 @@ export default {
 }
 .content {
   max-height: 360px;
-  overflow:auto;
+  overflow: auto;
 }
 </style>
