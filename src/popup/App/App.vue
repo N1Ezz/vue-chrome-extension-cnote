@@ -104,6 +104,7 @@ export default {
     }
   },
   methods: {
+    // TODO 下一步做下1.国际化 2.添加一个搜索框 3.看下存储方式是否改变一下
     save() {
       if (this.type === 'modify') {
         this.list = this.list.map((i) => {
