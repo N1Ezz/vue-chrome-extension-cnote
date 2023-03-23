@@ -22,7 +22,7 @@
           >
             密码
           </el-link>
-          ：{{ item.pwd_show ? item.password : '  *******' }}
+          ：{{ item.pwd_show ? item.password : '  ******' }}
         </el-col>
         <el-col :span="5">
           <el-button size="mini" type="text" @click="copy(item, true)">
