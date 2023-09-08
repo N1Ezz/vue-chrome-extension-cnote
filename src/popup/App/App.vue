@@ -1,6 +1,14 @@
 <template>
   <div class="main_app">
     <h5>{{ cnote_title }}</h5>
+    <div>
+      <el-button size="mini" type="text" icon="el-icon-upload" @click="fileUploadClick">
+        导入
+      </el-button>
+      <el-button size="mini" type="text" icon="el-icon-download" @click="fileDownloadClick">
+        导出
+      </el-button>
+    </div>
     <div class="content">
       <el-row v-for="(item, index) in list" :key="index">
         <el-col>
@@ -25,16 +33,16 @@
           ：{{ item.pwd_show ? item.password : '  ******' }}
         </el-col>
         <el-col :span="5">
-          <el-button size="mini" type="text" @click="copy(item, true)">
+          <el-button title="复制全部" size="mini" type="text" @click="copy(item, true)">
             <i class="el-icon-link"></i>
           </el-button>
-          <el-button size="mini" type="text" @click="copy(item)">
+          <el-button title="复制密码" size="mini" type="text" @click="copy(item)">
             <i class="el-icon-document-copy"></i>
           </el-button>
-          <el-button size="mini" type="text" @click="modify(item)">
+          <el-button title="编辑" size="mini" type="text" @click="modify(item)">
             <i class="el-icon-edit"></i>
           </el-button>
-          <el-button size="mini" type="text" @click="deleteItem(item)">
+          <el-button title="删除" size="mini" type="text" @click="deleteItem(item)">
             <i class="el-icon-scissors"></i>
           </el-button>
         </el-col>
@@ -80,11 +88,19 @@
         <el-button size="mini" type="plian" @click="save">保存</el-button>
       </div>
     </div>
+    <el-upload
+      ref="fileUpload"
+      action=""
+      :show-file-list="false"
+      :multiple="false"
+      :http-request="fileUpload"
+    ></el-upload>
   </div>
 </template>
 
 <script>
-import setting from '../../setting.js'
+import setting from '@/setting.js'
+import FileSaver from 'file-saver'
 export default {
   name: 'app',
   data() {
@@ -105,6 +121,14 @@ export default {
   },
   methods: {
     // TODO 下一步做下1.国际化 2.添加一个搜索框 3.看下存储方式是否改变一下
+    isJsonString(str) {
+      try {
+        if (typeof JSON.parse(str) == 'object') {
+          return true
+        }
+      } catch (e) {}
+      return false
+    },
     save() {
       if (this.type === 'modify') {
         this.list = this.list.map((i) => {
@@ -150,7 +174,9 @@ export default {
       document.execCommand('Copy') // 执行复制命令
       // 复制之后再删除元素，否则无法成功赋值
       copyInput.remove() // 删除动态创建的节点
-      type ? this.$message.success('复制成功！') : this.$message.success('密码复制成功！')
+      type
+        ? this.$message.success('已将全文复制至粘贴板！')
+        : this.$message.success('密码复制成功！')
     },
     deleteItem(item) {
       this.list = this.list.filter((i) => {
@@ -178,6 +204,40 @@ export default {
         username: '',
         password: ''
       }
+    },
+    // 上传账号密码文件
+    fileUploadClick() {
+      this.$refs.fileUpload.$el.children[0].click()
+    },
+    // 解析账号密码文件
+    async fileUpload({ file }) {
+      let blob = new Blob([file])
+      let reader = new FileReader()
+      reader.readAsText(blob, 'utf-8')
+      reader.onload = () => {
+        console.log()
+        if (this.isJsonString(reader.result)) {
+          let data = JSON.parse(reader.result)
+          data.forEach((d) => {
+            let id = this.list.length !== 0 ? this.list[this.list.length - 1].id + 1 : 1
+            let item = {
+              id,
+              username: d.username,
+              password: d.password,
+              address: d.address,
+              all: d.all
+            }
+            this.list.push(item)
+          })
+          localStorage.setItem('cnote_list', JSON.stringify(this.list))
+        }
+      }
+    },
+    // 下载保存保存的账号密码
+    fileDownloadClick() {
+      const jsonStr = JSON.stringify(this.list)
+      const blob = new Blob([jsonStr], { type: 'text/json' })
+      FileSaver.saveAs(blob, 'cnoteConfig.json')
     }
   },
   created() {
