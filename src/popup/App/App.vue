@@ -1,6 +1,6 @@
 <template>
   <div class="main_app">
-    <h5>{{ cnote_title }}</h5>
+    <h5 style="margin-bottom: 6px">{{ cnote_title }}</h5>
     <div>
       <el-button size="mini" type="text" icon="el-icon-upload" @click="fileUploadClick">
         导入
@@ -47,6 +47,13 @@
           </el-button>
         </el-col>
       </el-row>
+      <el-upload
+        ref="fileUpload"
+        action=""
+        :show-file-list="false"
+        :multiple="false"
+        :http-request="fileUpload"
+      ></el-upload>
     </div>
     <el-button
       v-if="this.type === 'close'"
@@ -88,13 +95,6 @@
         <el-button size="mini" type="plian" @click="save">保存</el-button>
       </div>
     </div>
-    <el-upload
-      ref="fileUpload"
-      action=""
-      :show-file-list="false"
-      :multiple="false"
-      :http-request="fileUpload"
-    ></el-upload>
   </div>
 </template>
 
